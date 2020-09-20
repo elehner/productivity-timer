@@ -1,9 +1,10 @@
-import React from "react";
-import logo from "../../logo.svg";
+import React, { useState } from "react";
 import "./App.css";
-import { Timer } from "../Timer/Timer";
+import Timer from "../Timer";
 
 export const App: React.FC = () => {
+  const [pomodoroSettings, setPomodoroSettings] = useState({});
+
   console.log(Date.now());
   return (
     <div className="App">
