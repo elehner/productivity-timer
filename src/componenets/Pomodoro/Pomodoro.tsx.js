@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { PomodoroSettings } from "../../types/pomodoro";
 import { Timer } from "../Timer/Timer";
-import './Pomodoro.scss';
+import './Pomodoro.css';
 
 export const Pomodoro: React.FC<PomodoroSettings> = (props) => {
   const [timerLength, setTimerLength] = useState<number>(props.pomodoroLength);
@@ -21,13 +21,12 @@ export const Pomodoro: React.FC<PomodoroSettings> = (props) => {
     pomodorosTillBreak,
     props.breakLength,
     props.pomodoroLength,
-    props.pomodorosBetweenBreaks,
+    props.pomodorosBetweenBreaks
   ]);
 
   return <div className='Pomodoro'>
     <Timer
-      initialSeconds={timerLength}
-      initialTime={Date.now()}
+      intialSeconds={timerLength}
       handleTimeout={handleTimeout}
     />
   </div>;

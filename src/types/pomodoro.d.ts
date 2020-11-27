@@ -1,4 +1,4 @@
-export interface PomodoroProps {
+export interface PomodoroSettings {
   pomodoroLength: number;
   breakLength: number;
   pomodorosBetweenBreaks: number;

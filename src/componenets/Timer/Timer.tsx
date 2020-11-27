@@ -2,36 +2,42 @@ import React, { useRef, useState, useEffect } from "react";
 import Time from "../Time";
 
 interface TimerProps {
-  intialSeconds: number;
+  initialSeconds: number;
+  initialTime: number;
   handleTimeout: () => void;
 }
 
 type timerState = "play" | "pause";
 
 export const Timer: React.FC<TimerProps> = ({
-  intialSeconds,
+  initialSeconds,
+  initialTime,
   handleTimeout,
 }) => {
-  const [currentSeconds, setCurrentSeconds] = useState(intialSeconds);
+  const [currentSeconds, setCurrentSeconds] = useState(initialSeconds);
   const [timerState, setTimerState] = useState<timerState>("play");
   let interval = useRef<NodeJS.Timeout>();
+
+  const updateTime = React.useCallback(async () => {
+    const calcTime = initialSeconds - Math.ceil((Date.now() - initialTime)/1000);
+    setCurrentSeconds(
+      calcTime <= initialSeconds && calcTime > 0
+        ? calcTime
+        : 0
+    );
+  }, [setCurrentSeconds, initialTime, initialSeconds]);
 
   useEffect(() => {
     if (timerState === "play") {
       interval.current = setInterval(() => {
-        setCurrentSeconds((oldCurrentSeconds) => {
-          if (oldCurrentSeconds > 0) {
-            oldCurrentSeconds--;
-          }
-          return oldCurrentSeconds;
-        });
-      }, 1000);
+        updateTime();
+      }, 250);
     } else if (interval.current) {
       clearInterval(interval.current);
     }
 
     return () => interval.current && clearInterval(interval.current);
-  }, [timerState]);
+  }, [timerState, updateTime]);
 
   useEffect(() => {
     if (currentSeconds <= 0) {
